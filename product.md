@@ -31,7 +31,7 @@ An RPG that replaces the real life tasks with in game quests. It breaks tasks th
 
 ## v1 scope
 
-- Web app only, with layouts designed for desktop browsers
+- Web app only, working on any screen size from phone to desktop
 - Quests with small steps
 - Priority (high / medium / low): decides the order in the Active Quests list
 - Difficulty (E to S): decides how much XP and gold the quest gives; half is paid across the steps as they're done, half as a bonus for finishing the quest
@@ -49,7 +49,7 @@ An RPG that replaces the real life tasks with in game quests. It breaks tasks th
 - Accounts for syncing data between devices
 - AI breakdown and sorting tasks
 - Friends, parties, leaderboards
-- Native mobile app
+- Native mobile and desktop apps
 - Calendar sync
 
 ## Success

@@ -14,6 +14,7 @@
 - All colours and fonts come from theme tokens; no hard-coded colours in components
 - Game-specific components (XP bar, quest card, character sheet) are hand-built in src/components/game/
 - Components stay small: one job each, split anything over ~150 lines
+- Responsive: every screen works from phone width (360px) up to desktop. Write Tailwind classes mobile-first (base styles for phones, `md:`/`lg:` for bigger screens) and keep tap targets at least 44px
 
 ## Storage
 
