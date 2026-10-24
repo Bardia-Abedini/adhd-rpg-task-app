@@ -6,7 +6,7 @@ Spec: specs/app-shell.md. One task = one commit. Do them in order.
     - New dependencies: vite, @vitejs/plugin-react, react, react-dom, typescript, @types/react, @types/react-dom
     - check: `npm run dev` opens the starter page with no errors or warnings in the terminal or browser console; `npm run build` passes; `tsconfig` has `"strict": true`
 
-- [ ]   2. Set up tests: Vitest + React Testing Library, with one test that the app renders
+- [x]   2. Set up tests: Vitest + React Testing Library, with one test that the app renders
     - New dependencies: vitest, jsdom, @testing-library/react, @testing-library/jest-dom, @testing-library/user-event
     - check: `npm test` passes and shows 1 passing test
 
