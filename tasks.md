@@ -10,7 +10,7 @@ Spec: specs/app-shell.md. One task = one commit. Do them in order.
     - New dependencies: vitest, jsdom, @testing-library/react, @testing-library/jest-dom, @testing-library/user-event
     - check: `npm test` passes and shows 1 passing test
 
-- [ ]   3. Theme: Tailwind, dark-only theme tokens and fonts
+- [x]   3. Theme: Tailwind, dark-only theme tokens and fonts
     - One token file for colours and fonts: background, surface, text, muted text, primary, accent, XP, gold. Tailwind's built-in colours turned off, so only tokens can be used
     - Cinzel for headings and Atkinson Hyperlegible for body, loaded from Google Fonts
     - New dependencies: tailwindcss, @tailwindcss/vite

@@ -1,3 +1,8 @@
 export default function App() {
-    return <h1>ADHD Quest RPG</h1>;
+    return (
+        <main>
+            <h1>ADHD Quest RPG</h1>
+            <p>Your quests will appear here.</p>
+        </main>
+    );
 }
