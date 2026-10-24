@@ -19,23 +19,26 @@ An RPG that replaces the real life tasks with in game quests. It breaks tasks th
 
 ## Core loop
 
-- Add a task -> user can break it into small steps -> the user tap the first one -> 25-minute focus timer -> step done, +XP and a sound -> pick the next step or stop
+- Add a task -> user can break it into small steps -> the user taps the first one -> 25-minute focus timer -> step done, +XP and a sound -> pick the next step or stop
+- Steps are optional: a quest with no steps can be started and finished directly
 
 ## Principles
 
 - Starting a quest should only take 2 taps, because starting needs to be fast and easy
 - Every first step should take less than 5 minutes, so starting a task feels easy
 - Instant rewards, so user gets a quick dopamine boost
-- Never punish a missed task. Missed tasks go back to the list if they can still be done after the due date. Tasks that can't be done after the due date can be archived
+- Never punish a missed task. When a task becomes overdue, ask the user once whether it can still be done. If yes, it stays in the list; if no, it's archived
 
 ## v1 scope
 
+- Web app only, with layouts designed for desktop browsers
 - Quests with small steps
 - Priority (high / medium / low): decides the order in the Active Quests list
-- Difficulty (E to S): decides how much XP and gold the quest gives
+- Difficulty (E to S): decides how much XP and gold the quest gives; half is paid across the steps as they're done, half as a bonus for finishing the quest
 - XP, level, gold, reward shop
 - Focus timer and history
-- Active quests section so user doesn't forget which tasks they are supposed to be doing right now
+- Active quests section so user doesn't forget which tasks they are supposed to be doing right now: only quests that are started or pinned, so it never turns into the full backlog
+- If the app is closed mid-timer, reopening it brings the user back to what they were working on
 - Data is saved locally in the browser
 - While doing a task there should be no distractions, so everything else hides and only the timer and the task info is clearly visible
 - When adding a task, user enters their guess for how long the task will take, and when the task is done, the actual time is shown to the user
