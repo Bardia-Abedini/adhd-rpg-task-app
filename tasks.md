@@ -16,7 +16,7 @@ Spec: specs/app-shell.md. One task = one commit. Do them in order.
     - New dependencies: tailwindcss, @tailwindcss/vite
     - check: the page has the dark background, headings show in Cinzel and body text in Atkinson Hyperlegible; searching `src/` for colour values (`#…`, `rgb(`, `hsl(`) finds them only in the token file
 
-- [ ]   4. Pages and routes: placeholder pages with their own URLs
+- [x]   4. Pages and routes: placeholder pages with their own URLs
     - Dashboard (`/`), Quests, Inventory, Character, History, Focus; each shows a title and placeholder text saying what will go there
     - `vercel.json` so every URL loads the app after deploy
     - New dependency: react-router
