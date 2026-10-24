@@ -32,54 +32,54 @@ type Priority = "high" | "medium" | "low"; // sets order in Active Quests
 type Difficulty = "E" | "D" | "C" | "B" | "A" | "S"; // sets XP and gold reward
 
 interface Quest {
-    id: string;
-    title: string;
-    priority: Priority;
-    difficulty: Difficulty;
-    estimateMin: number; // the user's time guess for the whole task
-    dueDate?: string; // ISO date
-    overdueConfirmed?: boolean; // true = user said it's still doable after the due date
-    pinned?: boolean; // true = show in Active Quests even before it's started
-    steps: Step[]; // array order is step order; can be empty
-    status: "open" | "done" | "archived";
-    createdAt: string;
-    completedAt?: string;
+  id: string;
+  title: string;
+  priority: Priority;
+  difficulty: Difficulty;
+  estimateMin: number; // the user's time guess for the whole task
+  dueDate?: string; // ISO date
+  overdueConfirmed?: boolean; // true = user said it's still doable after the due date
+  pinned?: boolean; // true = show in Active Quests even before it's started
+  steps: Step[]; // array order is step order; can be empty
+  status: "open" | "done" | "archived";
+  createdAt: string;
+  completedAt?: string;
 }
 
 interface Step {
-    id: string;
-    title: string;
-    done: boolean;
+  id: string;
+  title: string;
+  done: boolean;
 }
 
 interface FocusSession {
-    id: string;
-    questId: string;
-    stepId?: string; // empty when the quest has no steps
-    plannedMin: number; // timer length, 25 by default
-    startedAt: string;
-    endedAt?: string; // empty while the session is running
-    endReason?: "completed" | "stopped" | "recovered";
+  id: string;
+  questId: string;
+  stepId?: string; // empty when the quest has no steps
+  plannedMin: number; // timer length, 25 by default
+  startedAt: string;
+  endedAt?: string; // empty while the session is running
+  endReason?: "completed" | "stopped" | "recovered";
 }
 // A quest's actual time = total of its focus sessions (computed, not stored)
 
 interface Character {
-    xp: number; // total XP ever earned; level is computed from this in xp.ts
-    gold: number;
+  xp: number; // total XP ever earned; level is computed from this in xp.ts
+  gold: number;
 }
 
 interface ShopItem {
-    id: string;
-    name: string;
-    cost: number;
-    kind: "avatar" | "real-reward";
+  id: string;
+  name: string;
+  cost: number;
+  kind: "avatar" | "real-reward";
 }
 
 interface Purchase {
-    id: string;
-    itemId: string;
-    boughtAt: string;
-    used?: boolean; // for real-world rewards like "30 min gaming"
+  id: string;
+  itemId: string;
+  boughtAt: string;
+  used?: boolean; // for real-world rewards like "30 min gaming"
 }
 ```
 
@@ -102,8 +102,8 @@ interface Purchase {
 - A session is saved as soon as it starts, so closing the tab leaves an unfinished session behind
 - Only one unfinished session can exist at a time
 - When the app loads and finds an unfinished session:
-    - Time left: go straight back to focus mode with the remaining time and show "Welcome back, you were on [quest]: [step]"
-    - Time ran out while away: close it with endedAt = startedAt + plannedMin and endReason "recovered" (so time away isn't counted), then ask "You were working on [step]. Did you finish it?" with Done (tick the step and pay its XP), Keep going (start a new session) or Not now (back to the dashboard)
+  - Time left: go straight back to focus mode with the remaining time and show "Welcome back, you were on [quest]: [step]"
+  - Time ran out while away: close it with endedAt = startedAt + plannedMin and endReason "recovered" (so time away isn't counted), then ask "You were working on [step]. Did you finish it?" with Done (tick the step and pay its XP), Keep going (start a new session) or Not now (back to the dashboard)
 - Starting a new session while one is unfinished shows the same prompt first
 - A session's time is endedAt - startedAt; an unfinished one counts up to now, capped at plannedMin
 - No pause in v1 (it would need a pausedMs field later)

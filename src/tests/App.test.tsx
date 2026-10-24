@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import App from "../App";
 
 describe("App", () => {
-    it("opens on the Dashboard", () => {
-        render(<App />);
-        expect(screen.getByRole("heading", { name: "Dashboard" })).toBeInTheDocument();
-    });
+  it("opens on the Dashboard", () => {
+    render(<App />);
+    expect(screen.getByRole("heading", { name: "Dashboard" })).toBeInTheDocument();
+  });
 });

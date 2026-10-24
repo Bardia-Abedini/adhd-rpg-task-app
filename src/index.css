@@ -2,19 +2,19 @@
 @import "./styles/theme.css";
 
 @layer base {
-    html {
-        color-scheme: dark;
-    }
+  html {
+    color-scheme: dark;
+  }
 
-    body {
-        background-color: var(--color-background);
-        color: var(--color-text);
-        font-family: var(--font-body);
-    }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-body);
+  }
 
-    h1,
-    h2,
-    h3 {
-        font-family: var(--font-display);
-    }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+  }
 }

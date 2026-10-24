@@ -1,18 +1,18 @@
 /* The only file with colour and font values. Everything else uses these tokens. */
 @theme {
-    /* Turn off Tailwind's built-in colours and fonts so only tokens can be used */
-    --color-*: initial;
-    --font-*: initial;
+  /* Turn off Tailwind's built-in colours and fonts so only tokens can be used */
+  --color-*: initial;
+  --font-*: initial;
 
-    --color-background: #14111f;
-    --color-surface: #1f1a2e;
-    --color-text: #ede6d6;
-    --color-muted: #a59fb5;
-    --color-primary: #8b7cf6;
-    --color-accent: #3fb8a5;
-    --color-xp: #5ab0ff;
-    --color-gold: #e6b84c;
+  --color-background: #14111f;
+  --color-surface: #1f1a2e;
+  --color-text: #ede6d6;
+  --color-muted: #a59fb5;
+  --color-primary: #8b7cf6;
+  --color-accent: #3fb8a5;
+  --color-xp: #5ab0ff;
+  --color-gold: #e6b84c;
 
-    --font-display: "Cinzel", serif;
-    --font-body: "Atkinson Hyperlegible", sans-serif;
+  --font-display: "Cinzel", serif;
+  --font-body: "Atkinson Hyperlegible", sans-serif;
 }
