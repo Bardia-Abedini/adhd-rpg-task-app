@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router";
+import AppLayout from "./components/layout/AppLayout";
 import CharacterPage from "./pages/CharacterPage";
 import DashboardPage from "./pages/DashboardPage";
 import FocusPage from "./pages/FocusPage";
@@ -9,11 +10,13 @@ import QuestsPage from "./pages/QuestsPage";
 export default function AppRoutes() {
     return (
         <Routes>
-            <Route path="/" element={<DashboardPage />} />
-            <Route path="/quests" element={<QuestsPage />} />
-            <Route path="/inventory" element={<InventoryPage />} />
-            <Route path="/character" element={<CharacterPage />} />
-            <Route path="/character/history" element={<HistoryPage />} />
+            <Route element={<AppLayout />}>
+                <Route path="/" element={<DashboardPage />} />
+                <Route path="/quests" element={<QuestsPage />} />
+                <Route path="/inventory" element={<InventoryPage />} />
+                <Route path="/character" element={<CharacterPage />} />
+                <Route path="/character/history" element={<HistoryPage />} />
+            </Route>
             <Route path="/focus" element={<FocusPage />} />
             {/* Unknown URLs go to the Dashboard*/}
             <Route path="*" element={<Navigate to="/" replace />} />

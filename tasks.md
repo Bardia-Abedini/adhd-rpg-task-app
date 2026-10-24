@@ -22,7 +22,7 @@ Spec: specs/app-shell.md. One task = one commit. Do them in order.
     - New dependency: react-router
     - check: the app opens on Dashboard; typing each page's URL opens that page; refreshing on any page stays on it; tests for each route pass
 
-- [ ] 5. Bottom tab bar: Dashboard, Quests, Inventory, Character
+- [x] 5. Bottom tab bar: Dashboard, Quests, Inventory, Character
     - Active tab clearly highlighted; tap targets at least 44px; styles mobile-first
     - check: in browser dev tools at 360px wide, all 4 tabs are visible and each opens its page in one tap; at desktop width every page still looks right; tests for tab clicks and the highlighted tab pass
 

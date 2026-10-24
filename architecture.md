@@ -115,6 +115,7 @@ src/
   components/
     ui/        # shadcn components
     game/      # XP bar, quest card, character sheet
+    layout/    # app layout and tab bar
   pages/       # Dashboard, Quests, Character, Inventory, Focus, History
   store/       # Zustand stores
   lib/
