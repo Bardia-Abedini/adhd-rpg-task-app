@@ -6,6 +6,7 @@
 - Vite: fast dev server and simple setup, no server needed for v1
 - Tailwind CSS: styles live next to the markup, and theme tokens keep the RPG look consistent
 - shadcn/ui for interactive primitives: accessible dialogs, tabs and dropdowns that live in our repo, so they can be restyled freely
+- React Router for pages: every page has its own URL, so refresh and the browser back button work
 - Zustand for app state: tiny, less boilerplate than Redux, and works with async storage
 - Vitest + React Testing Library for tests: Vitest reuses Vite's config and is fast; Testing Library tests components the way a user uses them
 
@@ -114,7 +115,7 @@ src/
   components/
     ui/        # shadcn components
     game/      # XP bar, quest card, character sheet
-  pages/       # Dashboard, Quests, Character, Inventory
+  pages/       # Dashboard, Quests, Character, Inventory, Focus, History
   store/       # Zustand stores
   lib/
     storage.ts # the only file that touches browser storage
