@@ -15,7 +15,7 @@ export default function AppRoutes() {
             <Route path="/character" element={<CharacterPage />} />
             <Route path="/character/history" element={<HistoryPage />} />
             <Route path="/focus" element={<FocusPage />} />
-            {/* Unknown URLs go to the Dashboard so nobody gets lost */}
+            {/* Unknown URLs go to the Dashboard*/}
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     );

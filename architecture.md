@@ -102,8 +102,8 @@ interface Purchase {
 - A session is saved as soon as it starts, so closing the tab leaves an unfinished session behind
 - Only one unfinished session can exist at a time
 - When the app loads and finds an unfinished session:
-  - Time left: go straight back to focus mode with the remaining time and show "Welcome back, you were on [quest]: [step]"
-  - Time ran out while away: close it with endedAt = startedAt + plannedMin and endReason "recovered" (so time away isn't counted), then ask "You were working on [step]. Did you finish it?" with Done (tick the step and pay its XP), Keep going (start a new session) or Not now (back to the dashboard)
+    - Time left: go straight back to focus mode with the remaining time and show "Welcome back, you were on [quest]: [step]"
+    - Time ran out while away: close it with endedAt = startedAt + plannedMin and endReason "recovered" (so time away isn't counted), then ask "You were working on [step]. Did you finish it?" with Done (tick the step and pay its XP), Keep going (start a new session) or Not now (back to the dashboard)
 - Starting a new session while one is unfinished shows the same prompt first
 - A session's time is endedAt - startedAt; an unfinished one counts up to now, capped at plannedMin
 - No pause in v1 (it would need a pausedMs field later)
