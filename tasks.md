@@ -26,7 +26,7 @@ Spec: specs/app-shell.md. One task = one commit. Do them in order.
   - Active tab clearly highlighted; tap targets at least 44px; styles mobile-first
   - check: in browser dev tools at 360px wide, all 4 tabs are visible and each opens its page in one tap; at desktop width every page still looks right; tests for tab clicks and the highlighted tab pass
 
-- [ ] 6. History opens from Character, with a back button
+- [x] 6. History opens from Character, with a back button
   - check: Character → History → back returns to Character, using both the in-app back button and the browser back button; test passes
 
 - [ ] 7. Focus mode: placeholder step opens a full-screen Focus page
