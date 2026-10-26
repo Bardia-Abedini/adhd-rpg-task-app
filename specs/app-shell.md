@@ -38,16 +38,16 @@ All pages show a title and placeholder text saying what will go there.
 
 ## Acceptance criteria
 
-- [ ] `npm run dev` starts with no errors or warnings in the terminal or browser console
-- [ ] `npm test` and `npm run build` both pass
-- [ ] The app opens on Dashboard
-- [ ] On a 360px-wide screen, all 4 tabs are visible and each opens its page in one tap
-- [ ] Every page also works on a desktop-width screen
-- [ ] History opens from Character, and back returns to Character
-- [ ] Opening Focus hides the tab bar; exiting brings it back
-- [ ] Refreshing on any page stays on that page
-- [ ] No hard-coded colours outside the theme token file
-- [ ] TypeScript strict mode is on, with no `any` types and no `@ts-ignore`
+- [x] `npm run dev` starts with no errors or warnings in the terminal or browser console
+- [x] `npm test` and `npm run build` both pass
+- [x] The app opens on Dashboard
+- [x] On a 360px-wide screen, all 4 tabs are visible and each opens its page in one tap
+- [x] Every page also works on a desktop-width screen
+- [x] History opens from Character, and back returns to Character
+- [x] Opening Focus hides the tab bar; exiting brings it back
+- [x] Refreshing on any page stays on that page
+- [x] No hard-coded colours outside the theme token file
+- [x] TypeScript strict mode is on, with no `any` types and no `@ts-ignore`
 
 ## Out of scope
 

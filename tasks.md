@@ -34,7 +34,7 @@ Spec: specs/app-shell.md. One task = one commit. Do them in order.
   - Focus hides everything else, including the tab bar
   - check: tapping the placeholder step hides the tab bar; exit brings it back and returns to the page you came from; test passes
 
-- [ ] 8. Acceptance pass: run every acceptance check in specs/app-shell.md and fix anything left
+- [x] 8. Acceptance pass: run every acceptance check in specs/app-shell.md and fix anything left
   - check: `npm run dev` has no errors or warnings in the terminal or browser console; `npm test` and `npm run build` pass; searching `src/` for `any` types and `@ts-ignore` finds nothing; every criterion below is ticked
 
 ## Acceptance criteria → tasks
