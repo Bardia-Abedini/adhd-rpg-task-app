@@ -29,7 +29,7 @@ Spec: specs/app-shell.md. One task = one commit. Do them in order.
 - [x] 6. History opens from Character, with a back button
   - check: Character → History → back returns to Character, using both the in-app back button and the browser back button; test passes
 
-- [ ] 7. Focus mode: placeholder step opens a full-screen Focus page
+- [x] 7. Focus mode: placeholder step opens a full-screen Focus page
   - Quests page shows one placeholder step; tapping it opens Focus with placeholder timer and task info, and an exit button
   - Focus hides everything else, including the tab bar
   - check: tapping the placeholder step hides the tab bar; exit brings it back and returns to the page you came from; test passes
