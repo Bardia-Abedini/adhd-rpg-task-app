@@ -23,7 +23,7 @@ Spec: specs/quests.md. One task = one commit. Do them in order.
   - Title, priority, difficulty, time guess, due date and steps (add as many as you like); saving goes to the Quests page
   - check: create a quest with only a title and it appears in the Backlog with one step named after it; test passes
 
-- [ ] 5. Quests page: Backlog list, "New quest" button, Start
+- [x] 5. Quests page: Backlog list, "New quest" button, Start
   - Each backlog quest shows its title and a Start button; starting a 4th shows the blocking message
   - Keep the placeholder step that opens Focus until the focus spec
   - check: start 3 quests, then a 4th shows the message; tests pass
