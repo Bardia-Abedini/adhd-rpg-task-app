@@ -1,53 +1,68 @@
 # Tasks
 
-Spec: specs/app-shell.md. One task = one commit. Do them in order.
+Spec: specs/quests.md. One task = one commit. Do them in order.
 
-- [x] 1. Set up the project: Vite + React + TypeScript, strict mode on
-  - New dependencies: vite, @vitejs/plugin-react, react, react-dom, typescript, @types/react, @types/react-dom
-  - check: `npm run dev` opens the starter page with no errors or warnings in the terminal or browser console; `npm run build` passes; `tsconfig` has `"strict": true`
+- [ ] 1. Reward maths in `src/lib/xp.ts`, with unit tests
+  - Base reward per difficulty; each step's share (60% split evenly, rounded down); the bonus (40% plus the rounding remainder, paid when the last step is ticked); XP and gold earned by a quest from its ticked steps; level from total XP (starts at 1; level n needs 50 × n²)
+  - Quest and Step types in `src/lib/types.ts`, matching architecture.md
+  - check: `npm test` passes, with tests for the split, rounding, bonus, undo (unticking lowers the total, never below 0) and level formula; a D quest with 1, 3 and 7 steps all total exactly 20 XP and 10 gold
 
-- [x] 2. Set up tests: Vitest + React Testing Library, with one test that the app renders
-  - New dependencies: vitest, jsdom, @testing-library/react, @testing-library/jest-dom, @testing-library/user-event
-  - check: `npm test` passes and shows 1 passing test
+- [ ] 2. Quest store: create, Start, Pause and sorting (in memory, no saving)
+  - New dependency: zustand
+  - Create: only title required; defaults priority medium, difficulty D, time guess 25 min, no due date; no steps → one step named after the quest; goes to the Backlog
+  - Start blocks a 4th active quest with a message; Pause keeps progress; Active sorted by priority, then due date (none last), then creation date
+  - check: `npm test` passes, with store tests for each rule above
 
-- [x] 3. Theme: Tailwind, dark-only theme tokens and fonts
-  - One token file for colours and fonts: background, surface, text, muted text, primary, accent, XP, gold. Tailwind's built-in colours turned off, so only tokens can be used
-  - Cinzel for headings and Atkinson Hyperlegible for body, loaded from Google Fonts
-  - New dependencies: tailwindcss, @tailwindcss/vite
-  - check: the page has the dark background, headings show in Cinzel and body text in Atkinson Hyperlegible; searching `src/` for colour values (`#…`, `rgb(`, `hsl(`) finds them only in the token file
+- [ ] 3. Quest store: ticking and unticking steps
+  - Ticking the last step makes the quest done and frees its Active slot
+  - Unticking returns a done quest to Active, or to the Backlog with a message if 3 are already active
+  - Character XP, gold and level come from `xp.ts`, never stored
+  - check: `npm test` passes; a store test ticks every step of a D quest (20 XP, 10 gold), unticks one (values drop by the right amount, quest back in Active) and covers the "3 already active" case
 
-- [x] 4. Pages and routes: placeholder pages with their own URLs
-  - Dashboard (`/`), Quests, Inventory, Character, History, Focus; each shows a title and placeholder text saying what will go there
-  - `vercel.json` so every URL loads the app after deploy
-  - New dependency: react-router
-  - check: the app opens on Dashboard; typing each page's URL opens that page; refreshing on any page stays on it; tests for each route pass
+- [ ] 4. New quest page (`/quests/new`)
+  - Title, priority, difficulty, time guess, due date and steps (add as many as you like); saving goes to the Quests page
+  - check: create a quest with only a title and it appears in the Backlog with one step named after it; test passes
 
-- [x] 5. Bottom tab bar: Dashboard, Quests, Inventory, Character
-  - Active tab clearly highlighted; tap targets at least 44px; styles mobile-first
-  - check: in browser dev tools at 360px wide, all 4 tabs are visible and each opens its page in one tap; at desktop width every page still looks right; tests for tab clicks and the highlighted tab pass
+- [ ] 5. Quests page: Backlog list, "New quest" button, Start
+  - Each backlog quest shows its title and a Start button; starting a 4th shows the blocking message
+  - Keep the placeholder step that opens Focus until the focus spec
+  - check: start 3 quests, then a 4th shows the message; tests pass
 
-- [x] 6. History opens from Character, with a back button
-  - check: Character → History → back returns to Character, using both the in-app back button and the browser back button; test passes
+- [ ] 6. Dashboard: Active Quests, level, XP bar and gold
+  - Active Quests in sorted order, each with Pause and a link to its detail; level, XP bar (progress to the next level) and gold
+  - check: start quests with different priorities and due dates and they show in the right order; Pause moves one back to the Backlog; tests pass
 
-- [x] 7. Focus mode: placeholder step opens a full-screen Focus page
-  - Quests page shows one placeholder step; tapping it opens Focus with placeholder timer and task info, and an exit button
-  - Focus hides everything else, including the tab bar
-  - check: tapping the placeholder step hides the tab bar; exit brings it back and returns to the page you came from; test passes
+- [ ] 7. Quest detail (`/quests/:id`): tick and untick steps
+  - Steps with checkboxes; ticking updates XP and gold on the spot; ticking the last step finishes the quest
+  - check: Dashboard → tap a quest → tick a step (2 taps from opening the app); tick all steps of a D quest for exactly 20 XP and 10 gold; untick one and the quest is back in Active with the right totals; tests pass
 
-- [x] 8. Acceptance pass: run every acceptance check in specs/app-shell.md and fix anything left
-  - check: `npm run dev` has no errors or warnings in the terminal or browser console; `npm test` and `npm run build` pass; searching `src/` for `any` types and `@ts-ignore` finds nothing; every criterion below is ticked
+- [ ] 8. Quest detail: add, rename, reorder and delete steps
+  - Reorder with up and down buttons (no drag-and-drop dependency); the last step can't be deleted, so a quest always has one
+  - check: each action works on the page; tests pass
+
+- [ ] 9. Feedback: XP bar animation, sounds, "Quest complete" and level-up popup
+  - XP bar fills and gold updates on tick; a short Web Audio tone per step and a bigger one for finishing a quest; "Quest complete" message; level-up popup with the new level (none when undo lowers the level)
+  - check: in the browser, ticking a step fills the bar and plays a tone within 1 second; finishing a quest shows the message; crossing 200 XP shows the level-up popup; tests for the message and popup pass
+
+- [ ] 10. Mute toggle and reduced motion
+  - Speaker toggle in the tab bar mutes all sounds; with the operating system's reduced motion on, the XP bar and popup don't animate
+  - check: with mute on, ticking a step plays nothing; with reduced motion on (dev tools → Rendering → "prefers-reduced-motion: reduce"), the bar jumps instead of filling; tests pass
+
+- [ ] 11. Acceptance pass: run every acceptance check in specs/quests.md and fix anything left
+  - check: `npm test`, `npm run build` and `npm run format:check` pass; no hard-coded colours, `any` or `@ts-ignore` in `src/`; every criterion below is ticked
 
 ## Acceptance criteria → tasks
 
-| Criterion (specs/app-shell.md)                  | Task    |
-| ----------------------------------------------- | ------- |
-| `npm run dev` starts with no errors or warnings | 1, 8    |
-| `npm test` and `npm run build` pass             | 1, 2, 8 |
-| App opens on Dashboard                          | 4       |
-| 360px: all 4 tabs visible, one tap each         | 5       |
-| Every page works at desktop width               | 5, 8    |
-| History opens from Character, back returns      | 6       |
-| Focus hides the tab bar, exit brings it back    | 7       |
-| Refreshing stays on the page                    | 4       |
-| No hard-coded colours outside the token file    | 3, 8    |
-| Strict mode, no `any`, no `@ts-ignore`          | 1, 8    |
+| Criterion (specs/quests.md)                                     | Task     |
+| --------------------------------------------------------------- | -------- |
+| A quest can be created with only a title and is in the Backlog  | 2, 4     |
+| A quest created with no steps has one step with its title       | 2, 4     |
+| Starting a 4th active quest is blocked with a clear message     | 2, 5     |
+| Active Quests sorted by priority, then due date, then creation  | 2, 6     |
+| Ticking every step of a D quest gives exactly 20 XP and 10 gold | 1, 3, 7  |
+| Unticking after the bonus returns the right values and Active   | 1, 3, 7  |
+| Level updates immediately at a threshold, and the popup shows   | 1, 9     |
+| Feedback within 1 second of ticking a step                      | 9, 11    |
+| Mute and reduced motion are respected                           | 10       |
+| Unit tests cover split, rounding, bonus, undo and level         | 1        |
+| Starting a quest from opening the app takes at most 2 taps      | 5, 7, 11 |

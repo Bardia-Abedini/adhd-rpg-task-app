@@ -39,8 +39,8 @@ interface Quest {
   estimateMin: number; // the user's time guess for the whole task
   dueDate?: string; // ISO date
   overdueConfirmed?: boolean; // true = user said it's still doable after the due date
-  pinned?: boolean; // true = show in Active Quests even before it's started
-  steps: Step[]; // array order is step order; can be empty
+  active: boolean; // true = in Active Quests (max 3); set by Start, cleared by Pause or finishing
+  steps: Step[]; // array order is step order; never empty
   status: "open" | "done" | "archived";
   createdAt: string;
   completedAt?: string;
@@ -55,7 +55,7 @@ interface Step {
 interface FocusSession {
   id: string;
   questId: string;
-  stepId?: string; // empty when the quest has no steps
+  stepId: string;
   plannedMin: number; // timer length, 25 by default
   startedAt: string;
   endedAt?: string; // empty while the session is running
@@ -63,10 +63,8 @@ interface FocusSession {
 }
 // A quest's actual time = total of its focus sessions (computed, not stored)
 
-interface Character {
-  xp: number; // total XP ever earned; level is computed from this in xp.ts
-  gold: number;
-}
+// XP, level and gold are not stored: xp.ts computes them from which steps are ticked
+// (gold minus Purchases), so undo can never drift or go below 0
 
 interface ShopItem {
   id: string;
@@ -86,15 +84,17 @@ interface Purchase {
 ## Rewards
 
 - Each difficulty has a total XP and gold reward; the numbers and the level curve live in specs/rewards.md
-- Half the reward is split evenly across the steps and paid as each step is done; the other half is a bonus paid when the quest is finished
+- 60% of the reward is split evenly across the steps and paid as each step is ticked; 40% is a bonus paid when the last step is ticked
 - Each step's share is rounded down and the remainder goes into the bonus, so a quest always pays exactly its total
-- A quest with no steps pays the whole reward when it's finished
+- Unticking a step takes back its share, and the bonus if it was paid
 
 ## Active Quests
 
-- Active Quests shows open quests that are started (at least one step done or one focus session) or pinned
-- Every other open quest lives in the main quest list
-- A quest with no steps can be started directly and has a "Finish quest" action
+- "Start" moves an open quest into Active Quests; at most 3 can be active, and a 4th is blocked with a message
+- "Pause" moves it back to the Backlog with its progress kept
+- Active Quests are sorted by priority, then due date (none last), then creation date
+- Ticking the last step makes the quest done and frees its slot; unticking a step returns it to Active, or to the Backlog with a message if 3 are already active
+- A quest saved with no steps gets one step named after the quest
 
 ## Focus sessions
 

@@ -6,13 +6,14 @@ Rules for how rewards are paid are in architecture.md (Rewards). This spec holds
 
 | Difficulty | Total XP | Total gold |
 | ---------- | -------- | ---------- |
-| E          | TBD      | TBD        |
-| D          | TBD      | TBD        |
-| C          | TBD      | TBD        |
-| B          | TBD      | TBD        |
-| A          | TBD      | TBD        |
-| S          | TBD      | TBD        |
+| E          | 10       | 5          |
+| D          | 20       | 10         |
+| C          | 35       | 15         |
+| B          | 50       | 25         |
+| A          | 75       | 35         |
+| S          | 100      | 50         |
 
 ## Level curve
 
-- XP needed to reach each level: TBD
+- A new character starts at level 1 with 0 XP
+- Level n (2 and up) needs 50 × n² total XP, so level 2 is at 200 XP

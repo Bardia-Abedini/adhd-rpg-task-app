@@ -20,7 +20,7 @@ An RPG that replaces the real life tasks with in game quests. It breaks tasks th
 ## Core loop
 
 - Add a task -> user can break it into small steps -> the user taps the first one -> 25-minute focus timer -> step done, +XP and a sound -> pick the next step or stop
-- Steps are optional: a quest with no steps can be started and finished directly
+- Steps are optional when adding a quest: a quest saved with no steps gets one step named after the quest
 
 ## Principles
 
@@ -34,10 +34,10 @@ An RPG that replaces the real life tasks with in game quests. It breaks tasks th
 - Web app only, working on any screen size from phone to desktop
 - Quests with small steps
 - Priority (high / medium / low): decides the order in the Active Quests list
-- Difficulty (E to S): decides how much XP and gold the quest gives; half is paid across the steps as they're done, half as a bonus for finishing the quest
+- Difficulty (E to S): decides how much XP and gold the quest gives; 60% is paid across the steps as they're done, 40% as a bonus for finishing the quest
 - XP, level, gold, reward shop
 - Focus timer and history
-- Active quests section so user doesn't forget which tasks they are supposed to be doing right now: only quests that are started or pinned, so it never turns into the full backlog
+- Active quests section so user doesn't forget which tasks they are supposed to be doing right now: the user starts up to 3 quests at a time, so it never turns into the full backlog
 - If the app is closed mid-timer, reopening it brings the user back to what they were working on
 - Data is saved locally in the browser
 - While doing a task there should be no distractions, so everything else hides and only the timer and the task info is clearly visible
