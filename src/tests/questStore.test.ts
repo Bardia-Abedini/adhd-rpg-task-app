@@ -1,7 +1,8 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { activeQuests, backlogQuests } from "../lib/quests";
 import type { Quest } from "../lib/types";
-import { TOO_MANY_ACTIVE, useQuestStore } from "../store/quests";
+import { characterStats } from "../lib/xp";
+import { REOPENED_TO_BACKLOG, TOO_MANY_ACTIVE, useQuestStore } from "../store/quests";
 
 const store = () => useQuestStore.getState();
 
@@ -94,5 +95,43 @@ describe("activeQuests", () => {
       "medium-no-due",
       "low",
     ]);
+  });
+});
+
+describe("toggleStep", () => {
+  const tickAll = (id: string) => {
+    for (const step of store().quests.find(q => q.id === id)!.steps) store().toggleStep(id, step.id);
+  };
+  const find = (id: string) => store().quests.find(q => q.id === id)!;
+
+  it("finishes a quest on the last tick, pays exactly 20 XP and 10 gold for D, and frees its slot", () => {
+    const ids = ["A", "B", "C"].map(title => store().addQuest({ title, steps: ["1", "2", "3"] }).id);
+    ids.forEach(id => store().startQuest(id));
+    tickAll(ids[0]);
+
+    expect(find(ids[0])).toMatchObject({ status: "done", active: false });
+    expect(find(ids[0]).completedAt).toBeDefined();
+    expect(characterStats(store().quests)).toMatchObject({ xp: 20, gold: 10 });
+    expect(store().startQuest(store().addQuest({ title: "D" }).id)).toBeUndefined();
+  });
+
+  it("unticking after the bonus takes it back and returns the quest to Active", () => {
+    const id = store().addQuest({ title: "Essay", steps: ["1", "2", "3"] }).id;
+    store().startQuest(id);
+    tickAll(id);
+    expect(store().toggleStep(id, find(id).steps[0].id)).toBeUndefined();
+
+    expect(find(id)).toMatchObject({ status: "open", active: true, completedAt: undefined });
+    expect(characterStats(store().quests)).toMatchObject({ xp: 8, gold: 4 });
+  });
+
+  it("sends a reopened quest to the Backlog with a message when 3 are already active", () => {
+    const id = store().addQuest({ title: "Essay" }).id;
+    tickAll(id);
+    ["A", "B", "C"].forEach(title => store().startQuest(store().addQuest({ title }).id));
+
+    expect(store().toggleStep(id, find(id).steps[0].id)).toBe(REOPENED_TO_BACKLOG);
+    expect(find(id)).toMatchObject({ status: "open", active: false });
+    expect(backlogQuests(store().quests).map(q => q.id)).toEqual([id]);
   });
 });

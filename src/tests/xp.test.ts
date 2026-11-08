@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { REWARDS, levelFor, questReward } from "../lib/xp";
+import { REWARDS, characterStats, levelFor, questReward } from "../lib/xp";
 import type { Difficulty } from "../lib/types";
 
 function quest(difficulty: Difficulty, stepCount: number, doneCount: number) {
@@ -52,5 +52,20 @@ describe("levelFor", () => {
     [450, 3],
   ])("%i XP is level %i", (xp, level) => {
     expect(levelFor(xp)).toBe(level);
+  });
+});
+
+describe("characterStats", () => {
+  it("adds up every quest's reward and works out the level", () => {
+    // 2 finished S quests (200 XP, 100 gold) + 2 of 3 steps of a D quest (8 XP, 4 gold)
+    expect(characterStats([quest("S", 2, 2), quest("S", 5, 5), quest("D", 3, 2)])).toEqual({
+      xp: 208,
+      gold: 104,
+      level: 2,
+    });
+  });
+
+  it("starts at 0 XP, 0 gold and level 1", () => {
+    expect(characterStats([])).toEqual({ xp: 0, gold: 0, level: 1 });
   });
 });

@@ -31,3 +31,19 @@ export function questReward(quest: Pick<Quest, "difficulty" | "steps">): { xp: n
 export function levelFor(totalXp: number): number {
   return Math.max(1, Math.floor(Math.sqrt(totalXp / 50)));
 }
+
+// Never stored: summed from every quest's ticked steps, so undo can't drift or go below 0
+export function characterStats(quests: Pick<Quest, "difficulty" | "steps">[]): {
+  xp: number;
+  gold: number;
+  level: number;
+} {
+  let xp = 0;
+  let gold = 0;
+  for (const quest of quests) {
+    const reward = questReward(quest);
+    xp += reward.xp;
+    gold += reward.gold;
+  }
+  return { xp, gold, level: levelFor(xp) };
+}

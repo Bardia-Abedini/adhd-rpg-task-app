@@ -3,6 +3,7 @@ import type { Difficulty, Priority, Quest } from "../lib/types";
 
 export const MAX_ACTIVE = 3;
 export const TOO_MANY_ACTIVE = "You already have 3 active quests. Finish or pause one first.";
+export const REOPENED_TO_BACKLOG = "Moved back to the Backlog: you already have 3 active quests.";
 
 interface NewQuest {
   title: string;
@@ -18,6 +19,11 @@ interface QuestStore {
   addQuest: (input: NewQuest) => Quest;
   startQuest: (id: string) => string | undefined;
   pauseQuest: (id: string) => void;
+  toggleStep: (questId: string, stepId: string) => string | undefined;
+}
+
+function countActive(quests: Quest[]): number {
+  return quests.filter(quest => quest.status === "open" && quest.active).length;
 }
 
 function setActive(quests: Quest[], id: string, active: boolean): Quest[] {
@@ -53,10 +59,30 @@ export const useQuestStore = create<QuestStore>()((set, get) => ({
   },
 
   startQuest: id => {
-    const activeCount = get().quests.filter(quest => quest.status === "open" && quest.active).length;
-    if (activeCount >= MAX_ACTIVE) return TOO_MANY_ACTIVE;
+    if (countActive(get().quests) >= MAX_ACTIVE) return TOO_MANY_ACTIVE;
     set(state => ({ quests: setActive(state.quests, id, true) }));
   },
 
   pauseQuest: id => set(state => ({ quests: setActive(state.quests, id, false) })),
+
+  toggleStep: (questId, stepId) => {
+    const quests = get().quests;
+    const quest = quests.find(q => q.id === questId);
+    if (!quest) return;
+    const steps = quest.steps.map(step => (step.id === stepId ? { ...step, done: !step.done } : step));
+    let updated: Quest = { ...quest, steps };
+    let message: string | undefined;
+
+    if (steps.every(step => step.done)) {
+      updated = { ...updated, status: "done", active: false, completedAt: new Date().toISOString() };
+    } else if (quest.status === "done") {
+      // Reopened by undo: back to Active if there's a free slot
+      const hasSlot = countActive(quests) < MAX_ACTIVE;
+      updated = { ...updated, status: "open", active: hasSlot, completedAt: undefined };
+      if (!hasSlot) message = REOPENED_TO_BACKLOG;
+    }
+
+    set({ quests: quests.map(q => (q.id === questId ? updated : q)) });
+    return message;
+  },
 }));

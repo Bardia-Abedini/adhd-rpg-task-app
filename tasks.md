@@ -13,7 +13,7 @@ Spec: specs/quests.md. One task = one commit. Do them in order.
   - Start blocks a 4th active quest with a message; Pause keeps progress; Active sorted by priority, then due date (none last), then creation date
   - check: `npm test` passes, with store tests for each rule above
 
-- [ ] 3. Quest store: ticking and unticking steps
+- [x] 3. Quest store: ticking and unticking steps
   - Ticking the last step makes the quest done and frees its Active slot
   - Unticking returns a done quest to Active, or to the Backlog with a message if 3 are already active
   - Character XP, gold and level come from `xp.ts`, never stored
