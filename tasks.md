@@ -7,7 +7,7 @@ Spec: specs/quests.md. One task = one commit. Do them in order.
   - Quest and Step types in `src/lib/types.ts`, matching architecture.md
   - check: `npm test` passes, with tests for the split, rounding, bonus, undo (unticking lowers the total, never below 0) and level formula; a D quest with 1, 3 and 7 steps all total exactly 20 XP and 10 gold
 
-- [ ] 2. Quest store: create, Start, Pause and sorting (in memory, no saving)
+- [x] 2. Quest store: create, Start, Pause and sorting (in memory, no saving)
   - New dependency: zustand
   - Create: only title required; defaults priority medium, difficulty D, time guess 25 min, no due date; no steps → one step named after the quest; goes to the Backlog
   - Start blocks a 4th active quest with a message; Pause keeps progress; Active sorted by priority, then due date (none last), then creation date
