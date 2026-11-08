@@ -2,7 +2,7 @@
 
 Spec: specs/quests.md. One task = one commit. Do them in order.
 
-- [ ] 1. Reward maths in `src/lib/xp.ts`, with unit tests
+- [x] 1. Reward maths in `src/lib/xp.ts`, with unit tests
   - Base reward per difficulty; each step's share (60% split evenly, rounded down); the bonus (40% plus the rounding remainder, paid when the last step is ticked); XP and gold earned by a quest from its ticked steps; level from total XP (starts at 1; level n needs 50 × n²)
   - Quest and Step types in `src/lib/types.ts`, matching architecture.md
   - check: `npm test` passes, with tests for the split, rounding, bonus, undo (unticking lowers the total, never below 0) and level formula; a D quest with 1, 3 and 7 steps all total exactly 20 XP and 10 gold
