@@ -5,6 +5,7 @@ import DashboardPage from "./pages/DashboardPage";
 import FocusPage from "./pages/FocusPage";
 import HistoryPage from "./pages/HistoryPage";
 import InventoryPage from "./pages/InventoryPage";
+import NewQuestPage from "./pages/NewQuestPage";
 import QuestsPage from "./pages/QuestsPage";
 
 export default function AppRoutes() {
@@ -13,6 +14,7 @@ export default function AppRoutes() {
       <Route element={<AppLayout />}>
         <Route path="/" element={<DashboardPage />} />
         <Route path="/quests" element={<QuestsPage />} />
+        <Route path="/quests/new" element={<NewQuestPage />} />
         <Route path="/inventory" element={<InventoryPage />} />
         <Route path="/character" element={<CharacterPage />} />
         <Route path="/character/history" element={<HistoryPage />} />

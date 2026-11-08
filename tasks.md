@@ -19,7 +19,7 @@ Spec: specs/quests.md. One task = one commit. Do them in order.
   - Character XP, gold and level come from `xp.ts`, never stored
   - check: `npm test` passes; a store test ticks every step of a D quest (20 XP, 10 gold), unticks one (values drop by the right amount, quest back in Active) and covers the "3 already active" case
 
-- [ ] 4. New quest page (`/quests/new`)
+- [x] 4. New quest page (`/quests/new`)
   - Title, priority, difficulty, time guess, due date and steps (add as many as you like); saving goes to the Quests page
   - check: create a quest with only a title and it appears in the Backlog with one step named after it; test passes
 
