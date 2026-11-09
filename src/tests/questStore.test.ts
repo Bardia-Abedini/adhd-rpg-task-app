@@ -135,3 +135,56 @@ describe("toggleStep", () => {
     expect(backlogQuests(store().quests).map(q => q.id)).toEqual([id]);
   });
 });
+
+describe("editing steps", () => {
+  const find = (id: string) => store().quests.find(q => q.id === id)!;
+  const titles = (id: string) => find(id).steps.map(step => step.title);
+
+  it("adds a step at the end and ignores a blank one", () => {
+    const id = store().addQuest({ title: "Essay", steps: ["One"] }).id;
+    store().addStep(id, " Two ");
+    store().addStep(id, "   ");
+    expect(titles(id)).toEqual(["One", "Two"]);
+  });
+
+  it("renames a step and keeps the old name when the new one is blank", () => {
+    const quest = store().addQuest({ title: "Essay", steps: ["One"] });
+    store().renameStep(quest.id, quest.steps[0].id, " First ");
+    store().renameStep(quest.id, quest.steps[0].id, "  ");
+    expect(titles(quest.id)).toEqual(["First"]);
+  });
+
+  it("moves steps up and down, and does nothing past either end", () => {
+    const quest = store().addQuest({ title: "Essay", steps: ["A", "B", "C"] });
+    const [a, , c] = quest.steps;
+    store().moveStep(quest.id, c.id, -1);
+    expect(titles(quest.id)).toEqual(["A", "C", "B"]);
+    store().moveStep(quest.id, a.id, -1);
+    store().moveStep(quest.id, c.id, 1);
+    store().moveStep(quest.id, c.id, 1);
+    expect(titles(quest.id)).toEqual(["A", "B", "C"]);
+  });
+
+  it("deletes a step but never the last one", () => {
+    const quest = store().addQuest({ title: "Essay", steps: ["A", "B"] });
+    store().deleteStep(quest.id, quest.steps[0].id);
+    store().deleteStep(quest.id, quest.steps[1].id);
+    expect(titles(quest.id)).toEqual(["B"]);
+  });
+
+  it("reopens a finished quest when a step is added", () => {
+    const quest = store().addQuest({ title: "Essay" });
+    store().startQuest(quest.id);
+    store().toggleStep(quest.id, quest.steps[0].id);
+    expect(find(quest.id).status).toBe("done");
+    store().addStep(quest.id, "One more");
+    expect(find(quest.id)).toMatchObject({ status: "open", active: true });
+  });
+
+  it("finishes a quest when its only unticked step is deleted", () => {
+    const quest = store().addQuest({ title: "Essay", steps: ["A", "B"] });
+    store().toggleStep(quest.id, quest.steps[0].id);
+    store().deleteStep(quest.id, quest.steps[1].id);
+    expect(find(quest.id).status).toBe("done");
+  });
+});

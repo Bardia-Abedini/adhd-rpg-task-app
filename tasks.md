@@ -36,7 +36,7 @@ Spec: specs/quests.md. One task = one commit. Do them in order.
   - Steps with checkboxes; ticking updates XP and gold on the spot; ticking the last step finishes the quest
   - check: Dashboard → tap a quest → tick a step (2 taps from opening the app); tick all steps of a D quest for exactly 20 XP and 10 gold; untick one and the quest is back in Active with the right totals; tests pass
 
-- [ ] 8. Quest detail: add, rename, reorder and delete steps
+- [x] 8. Quest detail: add, rename, reorder and delete steps
   - Reorder with up and down buttons (no drag-and-drop dependency); the last step can't be deleted, so a quest always has one
   - check: each action works on the page; tests pass
 

@@ -75,3 +75,24 @@ describe("quest detail", () => {
     expect(screen.getByRole("heading", { name: "Quest not found" })).toBeInTheDocument();
   });
 });
+
+describe("editing steps on the quest detail page", () => {
+  it("adds, renames, moves and deletes steps", async () => {
+    const quest = startEssay();
+    renderAt(`/quests/${quest.id}`);
+    await userEvent.click(screen.getByRole("button", { name: "Edit steps" }));
+
+    await userEvent.type(screen.getByRole("textbox", { name: "New step" }), "Proofread{enter}");
+    await userEvent.clear(screen.getByRole("textbox", { name: "Step 1 name" }));
+    await userEvent.type(screen.getByRole("textbox", { name: "Step 1 name" }), "Open the doc");
+    await userEvent.tab();
+    await userEvent.click(screen.getByRole("button", { name: "Move Proofread up" }));
+    await userEvent.click(screen.getByRole("button", { name: "Delete Write intro" }));
+
+    const titles = () => useQuestStore.getState().quests[0].steps.map(step => step.title);
+    expect(titles()).toEqual(["Open the doc", "Proofread", "Write ending"]);
+
+    await userEvent.click(screen.getByRole("button", { name: "Done" }));
+    expect(screen.getAllByRole("checkbox").map(box => box.closest("label")?.textContent)).toEqual(titles());
+  });
+});
