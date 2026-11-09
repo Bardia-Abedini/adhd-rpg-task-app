@@ -40,7 +40,7 @@ Spec: specs/quests.md. One task = one commit. Do them in order.
   - Reorder with up and down buttons (no drag-and-drop dependency); the last step can't be deleted, so a quest always has one
   - check: each action works on the page; tests pass
 
-- [ ] 9. Feedback: XP bar animation, sounds, "Quest complete" and level-up popup
+- [x] 9. Feedback: XP bar animation, sounds, "Quest complete" and level-up popup
   - XP bar fills and gold updates on tick; a short Web Audio tone per step and a bigger one for finishing a quest; "Quest complete" message; level-up popup with the new level (none when undo lowers the level)
   - check: in the browser, ticking a step fills the bar and plays a tone within 1 second; finishing a quest shows the message; crossing 200 XP shows the level-up popup; tests for the message and popup pass
 

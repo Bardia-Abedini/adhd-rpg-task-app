@@ -15,7 +15,7 @@ export default function XpBar({ xp, level }: { xp: number; level: number }) {
         aria-valuenow={xp}
         className="h-3 overflow-hidden rounded bg-surface"
       >
-        <div className="h-full bg-xp" style={{ width: `${percent}%` }} />
+        <div className="h-full bg-xp transition-[width] duration-500" style={{ width: `${percent}%` }} />
       </div>
       <p className="mt-1 text-sm text-muted">
         {xp} / {next} XP

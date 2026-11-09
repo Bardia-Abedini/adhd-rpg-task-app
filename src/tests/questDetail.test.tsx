@@ -1,10 +1,13 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import AppRoutes from "../AppRoutes";
 import { activeQuests } from "../lib/quests";
+import { playSound } from "../sound";
 import { REOPENED_TO_BACKLOG, useQuestStore } from "../store/quests";
+
+vi.mock("../sound", () => ({ playSound: vi.fn() }));
 
 function renderAt(path: string) {
   render(
@@ -24,6 +27,7 @@ function startEssay() {
 
 beforeEach(() => {
   useQuestStore.setState({ quests: [] });
+  vi.mocked(playSound).mockClear();
 });
 
 describe("quest detail", () => {
@@ -45,7 +49,7 @@ describe("quest detail", () => {
 
     expect(screen.getByText("20 / 200 XP")).toBeInTheDocument();
     expect(screen.getByText("10 gold")).toBeInTheDocument();
-    expect(screen.getByText(/Done/)).toBeInTheDocument();
+    expect(screen.getByRole("status")).toHaveTextContent("Quest complete!");
     expect(activeQuests(store().quests)).toEqual([]);
   });
 
@@ -94,5 +98,42 @@ describe("editing steps on the quest detail page", () => {
 
     await userEvent.click(screen.getByRole("button", { name: "Done" }));
     expect(screen.getAllByRole("checkbox").map(box => box.closest("label")?.textContent)).toEqual(titles());
+  });
+});
+
+describe("feedback", () => {
+  it("plays a tone when a step is ticked, and nothing when it's unticked", async () => {
+    const quest = startEssay();
+    renderAt(`/quests/${quest.id}`);
+    await userEvent.click(screen.getByRole("checkbox", { name: "Open doc" }));
+    expect(playSound).toHaveBeenCalledExactlyOnceWith("step");
+    await userEvent.click(screen.getByRole("checkbox", { name: "Open doc" }));
+    expect(playSound).toHaveBeenCalledTimes(1);
+  });
+
+  it("plays the quest chime and shows Quest complete when the last step is ticked", async () => {
+    const quest = store().addQuest({ title: "Essay" });
+    store().startQuest(quest.id);
+    renderAt(`/quests/${quest.id}`);
+    await userEvent.click(screen.getByRole("checkbox", { name: "Essay" }));
+    expect(playSound).toHaveBeenCalledExactlyOnceWith("quest");
+    expect(screen.getByRole("status")).toHaveTextContent("Quest complete!");
+  });
+
+  it("shows a level-up popup when XP crosses 200, and none when undo lowers the level", async () => {
+    const big = store().addQuest({ title: "Big", difficulty: "S" });
+    store().toggleStep(big.id, big.steps[0].id);
+    const boss = store().addQuest({ title: "Boss", difficulty: "S" });
+    store().startQuest(boss.id);
+    renderAt(`/quests/${boss.id}`);
+
+    await userEvent.click(screen.getByRole("checkbox", { name: "Boss" }));
+    expect(screen.getByRole("dialog", { name: "Level up!" })).toHaveTextContent("You're now level 2");
+    await userEvent.click(screen.getByRole("button", { name: "OK" }));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("checkbox", { name: "Boss" }));
+    expect(screen.getByText("Level 1")).toBeInTheDocument();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 });

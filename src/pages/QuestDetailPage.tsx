@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { Link, useParams } from "react-router";
 import CharacterCard from "../components/game/CharacterCard";
+import LevelUpPopup from "../components/game/LevelUpPopup";
 import StepEditor from "../components/game/StepEditor";
+import { characterStats } from "../lib/xp";
+import { playSound } from "../sound";
 import { useQuestStore } from "../store/quests";
 
 export default function QuestDetailPage() {
@@ -10,6 +13,7 @@ export default function QuestDetailPage() {
   const toggleStep = useQuestStore(state => state.toggleStep);
   const [message, setMessage] = useState("");
   const [editing, setEditing] = useState(false);
+  const [levelUp, setLevelUp] = useState<number | null>(null);
 
   const back = (
     <Link to="/" className="inline-flex min-h-11 items-center text-primary">
@@ -27,14 +31,31 @@ export default function QuestDetailPage() {
     );
   }
 
+  const questId = quest.id;
+
+  // Feedback only on ticking: a tone (a chime if it finishes the quest), and a popup if the level went up
+  function handleToggle(stepId: string, wasDone: boolean) {
+    const levelBefore = characterStats(useQuestStore.getState().quests).level;
+    setMessage(toggleStep(questId, stepId) ?? "");
+    if (wasDone) return;
+    const after = useQuestStore.getState().quests;
+    playSound(after.find(q => q.id === questId)?.status === "done" ? "quest" : "step");
+    const levelAfter = characterStats(after).level;
+    if (levelAfter > levelBefore) setLevelUp(levelAfter);
+  }
+
   return (
     <main>
       {back}
       <h1>{quest.title}</h1>
       <p className="text-muted">
         <span className="capitalize">{quest.priority}</span> · {quest.difficulty}
-        {quest.status === "done" && " · Done"}
       </p>
+      <div role="status">
+        {quest.status === "done" && (
+          <p className="mt-4 rounded bg-surface p-4 font-display text-xl text-gold">Quest complete!</p>
+        )}
+      </div>
 
       <CharacterCard />
 
@@ -59,7 +80,7 @@ export default function QuestDetailPage() {
                 <input
                   type="checkbox"
                   checked={step.done}
-                  onChange={() => setMessage(toggleStep(quest.id, step.id) ?? "")}
+                  onChange={() => handleToggle(step.id, step.done)}
                   className="size-5 accent-primary"
                 />
                 <span className={step.done ? "text-muted line-through" : ""}>{step.title}</span>
@@ -68,6 +89,7 @@ export default function QuestDetailPage() {
           ))}
         </ul>
       )}
+      {levelUp !== null && <LevelUpPopup level={levelUp} onClose={() => setLevelUp(null)} />}
     </main>
   );
 }
