@@ -1,28 +1,18 @@
 import { Link } from "react-router";
-import XpBar from "../components/game/XpBar";
+import CharacterCard from "../components/game/CharacterCard";
 import { activeQuests } from "../lib/quests";
-import { characterStats } from "../lib/xp";
 import { useQuestStore } from "../store/quests";
 
 export default function DashboardPage() {
   const quests = useQuestStore(state => state.quests);
   const pauseQuest = useQuestStore(state => state.pauseQuest);
-  const stats = characterStats(quests);
   const active = activeQuests(quests);
 
   return (
     <main>
       <h1>Dashboard</h1>
 
-      <section aria-label="Character" className="mt-4 rounded bg-surface p-4">
-        <div className="flex items-baseline justify-between">
-          <p className="font-display text-xl">Level {stats.level}</p>
-          <p className="text-gold">{stats.gold} gold</p>
-        </div>
-        <div className="mt-2">
-          <XpBar xp={stats.xp} level={stats.level} />
-        </div>
-      </section>
+      <CharacterCard />
 
       <h2 className="mt-6">Active Quests</h2>
       {active.length === 0 ? (

@@ -32,7 +32,7 @@ Spec: specs/quests.md. One task = one commit. Do them in order.
   - Active Quests in sorted order, each with Pause and a link to its detail; level, XP bar (progress to the next level) and gold
   - check: start quests with different priorities and due dates and they show in the right order; Pause moves one back to the Backlog; tests pass
 
-- [ ] 7. Quest detail (`/quests/:id`): tick and untick steps
+- [x] 7. Quest detail (`/quests/:id`): tick and untick steps
   - Steps with checkboxes; ticking updates XP and gold on the spot; ticking the last step finishes the quest
   - check: Dashboard → tap a quest → tick a step (2 taps from opening the app); tick all steps of a D quest for exactly 20 XP and 10 gold; untick one and the quest is back in Active with the right totals; tests pass
 
