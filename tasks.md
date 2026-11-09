@@ -28,7 +28,7 @@ Spec: specs/quests.md. One task = one commit. Do them in order.
   - Keep the placeholder step that opens Focus until the focus spec
   - check: start 3 quests, then a 4th shows the message; tests pass
 
-- [ ] 6. Dashboard: Active Quests, level, XP bar and gold
+- [x] 6. Dashboard: Active Quests, level, XP bar and gold
   - Active Quests in sorted order, each with Pause and a link to its detail; level, XP bar (progress to the next level) and gold
   - check: start quests with different priorities and due dates and they show in the right order; Pause moves one back to the Backlog; tests pass
 

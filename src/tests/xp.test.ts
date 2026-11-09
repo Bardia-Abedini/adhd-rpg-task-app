@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { REWARDS, characterStats, levelFor, questReward } from "../lib/xp";
+import { REWARDS, characterStats, levelFor, questReward, xpForLevel } from "../lib/xp";
 import type { Difficulty } from "../lib/types";
 
 function quest(difficulty: Difficulty, stepCount: number, doneCount: number) {
@@ -67,5 +67,16 @@ describe("characterStats", () => {
 
   it("starts at 0 XP, 0 gold and level 1", () => {
     expect(characterStats([])).toEqual({ xp: 0, gold: 0, level: 1 });
+  });
+});
+
+describe("xpForLevel", () => {
+  it.each([
+    [1, 0],
+    [2, 200],
+    [3, 450],
+  ])("level %i starts at %i XP", (level, xp) => {
+    expect(xpForLevel(level)).toBe(xp);
+    expect(levelFor(xp)).toBe(level);
   });
 });
